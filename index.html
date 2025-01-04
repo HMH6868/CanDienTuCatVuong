@@ -7,6 +7,7 @@
         <title>Cân Điện Tử Cát Vượng</title>
         <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
         <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
 
@@ -479,24 +480,69 @@
                                     <h5 class="card-title">CÂN ĐIỆN TỬ CÁT VƯỢNG</h5>
                                     <form id="myForm">
                                         <div class="mb-3">
-                                            <label for="fullname" class="form-label">Họ và tên</label>
-                                            <input type="text" class="form-control" id="fullname" placeholder="Nhập họ và tên">
+                                          <label for="fullname" class="form-label">Họ và tên</label>
+                                          <input type="text" class="form-control" id="fullname" placeholder="Nhập họ và tên">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="phone" class="form-label">Số điện thoại</label>
-                                            <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                                          <label for="phone" class="form-label">Số điện thoại</label>
+                                          <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="message" class="form-label">Địa chỉ</label>
-                                            <textarea class="form-control" id="message" rows="3" placeholder="Địa chỉ"></textarea>
+                                          <label for="message" class="form-label">Địa chỉ</label>
+                                          <textarea class="form-control" id="message" rows="3" placeholder="Địa chỉ"></textarea>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="message" class="form-label">Lời nhắn</label>
-                                            <textarea class="form-control" id="message" rows="3" placeholder="Bạn muốn..."></textarea>
+                                          <label for="loinhan" class="form-label">Lời nhắn</label>
+                                          <textarea class="form-control" id="loinhan" rows="3" placeholder="Bạn muốn..."></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-light mx-auto">Nhận tư vấn ngay</button>
-                                    </form>
+                                      </form>
                                 </div>
+
+                                <script>
+                                    $("#myForm").submit(function(e) {
+                                      e.preventDefault(); 
+                                
+                                      // Disable the button and show a loading indicator (optional)
+                                      $("#submitButton").prop("disabled", true);
+                                      $("#submitButton").html("Đang gửi..."); // You can add a spinner icon here
+                                
+                                      var fullname = $("#fullname").val();
+                                      var phone = $("#phone").val();
+                                      var address = $("#message").val();
+                                      var message = $("#loinhan").val();
+                                
+                                      var scriptURL = "https://script.google.com/macros/s/AKfycbycptt_iSPKOxANC16V2BgfCgjjRa1CBIH78RbCAPTCmHDnqcOpZenpWlXAcrVNyPnT5g/exec"; 
+                                
+                                      $.ajax({
+                                        url: scriptURL,
+                                        type: "POST",
+                                        dataType: "json",
+                                        data: {
+                                          "fullname": fullname,
+                                          "phone": phone,
+                                          "address": address,
+                                          "message": message
+                                        },
+                                        success: function(response) {
+                                          alert("thông tin đã được lưu thành công!");
+                                          $("#myForm")[0].reset(); 
+                                
+                                          // Re-enable the button after successful submission
+                                          $("#submitButton").prop("disabled", false);
+                                          $("#submitButton").html("Nhận tư vấn ngay"); 
+                                        },
+                                        error: function(error) {
+                                          console.error("Error submitting data:", error);
+                                          alert("lỗi khi lưu thông tin, thử lại sau.");
+                                
+                                          // Re-enable the button in case of an error
+                                          $("#submitButton").prop("disabled", false);
+                                          $("#submitButton").html("Nhận tư vấn ngay"); 
+                                        }
+                                      });
+                                    });
+                                  </script>
                             </div>
                         </div>
                     </div>
